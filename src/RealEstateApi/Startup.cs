@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using RealEstate.Options;
-using RealEstate.Services;
+using Microsoft.Extensions.Options;
+using RealEstateApi.HttpClients;
+using RealEstateApi.Services;
+using Refit;
+using System;
 
-namespace RealEstate
+namespace RealEstateApi
 {
     public class Startup
     {
@@ -23,10 +24,17 @@ namespace RealEstate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IZillowClient, ZillowScrapper>();
-            services.AddSingleton<IWebDriver, ChromeDriver>();
 
-            services.Configure<ApplicationSettings>(Configuration.GetSection("Application"));
+            services.AddSingleton<IPropertyService, PropertyService>();
+            services.Configure<ZillowApiSettings>(Configuration.GetSection("Zillow"));
+
+            var refitSettings = new RefitSettings { ContentSerializer = new XmlContentSerializer() };
+            services.AddRefitClient<IZillowApi>(refitSettings)
+                .ConfigureHttpClient((provider, client) =>
+                {
+                    var settings = provider.GetRequiredService<IOptions<ZillowApiSettings>>().Value;
+                    client.BaseAddress = new Uri(settings.SiteUrl);
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

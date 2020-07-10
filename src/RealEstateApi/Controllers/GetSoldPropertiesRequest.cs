@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RealEstate.Contracts
+namespace RealEstateApi
 {
     public class GetSoldPropertiesRequest
     {
@@ -11,5 +11,9 @@ namespace RealEstate.Contracts
         [Required]
         [StringLength(255, MinimumLength = 1)]
         public string City { get; set; }
+
+        [Required]
+        [StringLength(255, MinimumLength = 1)]
+        public string Address { get; set; }
     }
 }
