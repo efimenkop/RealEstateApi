@@ -4,6 +4,6 @@
     {
         public string SiteUrl { get; set; }
         public string ApiKey { get; set; }
-        public int PageSize { get; set; }
+        public int DefaultPageSize { get; set; }
     }
 }

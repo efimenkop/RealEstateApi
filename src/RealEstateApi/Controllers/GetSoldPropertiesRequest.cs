@@ -15,5 +15,9 @@ namespace RealEstateApi
         [Required]
         [StringLength(255, MinimumLength = 1)]
         public string Address { get; set; }
+
+        [MinLength(1)]
+        [MaxLength(100)]
+        public int? PageSize { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace RealEstateApi.Services
                 throw new Exception($"Zillow API returned error code: {response.Message.Code} - {response.Message.Text}");
             }
 
-            var properties = response.Response.Results.Properties.Where(p => p.LastSoldDate != null).Take(_zillowApiSettings.PageSize);
+            var properties = response.Response.Results.Properties.Where(p => p.LastSoldDate != null).Take(request.PageSize ?? _zillowApiSettings.DefaultPageSize);
 
             return properties;
         }
