@@ -40,10 +40,10 @@ namespace RealEstateApi.HttpClients
         public int Zpid { get; set; }
 
         [XmlElement("bedrooms")]
-        public int Bedrooms { get; set; }
+        public int? Bedrooms { get; set; }
 
         [XmlElement("bathrooms")]
-        public int Bathrooms { get; set; }
+        public int? Bathrooms { get; set; }
 
         [XmlElement("lastSoldDate")]
         public DateTime? LastSoldDate { get; set; }
