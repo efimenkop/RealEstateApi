@@ -1,6 +1,5 @@
 using RealEstateApi.HttpClients;
 using Refit;
-using System;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -27,7 +26,7 @@ namespace RealEstateApi.UnitTests
             var properties = dto.Response.Results.Properties;
             Assert.NotNull(properties);
             Assert.Single(properties);
-            Assert.Equal(48749425, properties.Single().Zpid);
+            Assert.Equal(40083537, properties.Single().Zpid);
         }
 
         [Fact]

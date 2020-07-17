@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using RealEstateApi.HttpClients;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace RealEstateApi.Services
 
         public async Task<IEnumerable<Property>> GetSoldProperties(GetSoldPropertiesRequest request)
         {
-            var response = await _zillowApi.GetSearchResults(_zillowApiSettings.ApiKey, $"{request.City}, {request.Country}", request.Address);
+            var response = await _zillowApi.GetDeepSearchResults(_zillowApiSettings.ApiKey, $"{request.City}, {request.Country}", request.Address);
 
             if (response.Message.Code > 0)
             {

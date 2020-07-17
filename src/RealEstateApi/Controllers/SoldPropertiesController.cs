@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Contracts;
+using RealEstateApi.HttpClients;
 using RealEstateApi.Services;
 
 namespace RealEstateApi.Controllers
@@ -17,11 +19,26 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet]
-        public async Task<GetSoldPropertiesResponse> Get([FromQuery] GetSoldPropertiesRequest request)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Get([FromQuery] GetSoldPropertiesRequest request)
         {
-            var properties = await _service.GetSoldProperties(request);
+            var response = new GetSoldPropertiesResponse();
 
-            return new GetSoldPropertiesResponse { Properties = properties };
+            try
+            {
+                response.Properties = await _service.GetSoldProperties(request);
+            }
+            catch (ZillowApiException e) when (e.CodeType == ResponseCodeType.Successful)
+            {
+                return Ok(response);
+            }
+            catch (ZillowApiException e) when (e.CodeType == ResponseCodeType.ClientError)
+            {
+                return BadRequest(e.Message);
+            }
+
+            return Ok(response);
         }
     }
 }

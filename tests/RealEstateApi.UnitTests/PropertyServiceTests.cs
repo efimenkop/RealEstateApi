@@ -23,7 +23,7 @@ namespace RealEstateApi.UnitTests
             var xmlContentSerializer = new XmlContentSerializer(serializerSettings);
             var dto = await xmlContentSerializer.DeserializeAsync<SearchResults>(new StringContent(content));
             var mockZillowApi = new Mock<IZillowApi>();
-            mockZillowApi.Setup(api => api.GetSearchResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            mockZillowApi.Setup(api => api.GetDeepSearchResults(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(dto);
             var settings = Options.Create(new ZillowApiSettings { ApiKey = "ApiKey", SiteUrl = "http://test.com" });
             var sut = new PropertyService(mockZillowApi.Object, settings);
@@ -35,7 +35,7 @@ namespace RealEstateApi.UnitTests
             var properties = dto.Response.Results.Properties;
             Assert.NotNull(properties);
             Assert.Single(properties);
-            Assert.Equal(48749425, properties.Single().Zpid);
+            Assert.Equal(40083537, properties.Single().Zpid);
         }
     }
 }

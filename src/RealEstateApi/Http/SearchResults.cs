@@ -43,10 +43,10 @@ namespace RealEstateApi.HttpClients
         public int? Bedrooms { get; set; }
 
         [XmlElement("bathrooms")]
-        public int? Bathrooms { get; set; }
+        public decimal? Bathrooms { get; set; }
 
         [XmlElement("lastSoldDate")]
-        public DateTime? LastSoldDate { get; set; }
+        public string LastSoldDate { get; set; }
 
         [XmlElement("lastSoldPrice")]
         public decimal? LastSoldPrice { get; set; }
